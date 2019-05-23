@@ -1,0 +1,26 @@
+To run the script, the libraries should be installed, if they are not. The file with listed requirements is attached. It can be done by typing "pip install -r requirements.txt" in the unix console.
+
+The script requires the insertion of three parameters:
+path - path to the folder with images - (str)
+mikK - minimum elements in cluster, should be chosen - "11"(int)
+metric - metric to compute distances, should be chosen "euclidean"(str)
+
+
+Method:
+To clust images, I decided to extract the features from them using the pretrained CNN model provided by the keras library - VGG16. In order to do this, I have resized photos into a common size by choosing 32x32 high-handedly, after analyzing the distribution for height, width and depth.
+
+D - dimension of the data
+After obtaining the first order tensor features, I use the DBSCAN clustering algorithm, which requires two parameters above others:
+minK - The number of samples (or total weight) in a neighborhood for a point to be considered as a core point. This includes the point itself.
+epsilon - The maximum distance between two samples for them to be considered as in the same neighborhood.
+
+According to the rule found on internet forms, and Wikipedia - minK > D, hence I decided to take minK = D+1, and epsilon was chosen by finding the knee point in the kmeans graph, from given data.
+Allowing to create clusters with a few elements (from 10), I have reduced the dimensionality of data by using UMAP to 9 dim, hence minK shound be chosen as 10.
+
+Not being sure how the distance should be measured in the space of features obtained with the help of the pretrained model, I examined cosine and euclidean metric. Based on obtained results, I found that clusters are better with the euclidean metric.
+
+On my computer, the script ends the calculation in less than 3 minutes.
+
+The first cluster contains data, considered as outliers, in the sense of not belonging to any cluster created so far.
+
+
